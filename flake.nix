@@ -17,7 +17,7 @@
     }@inputs:
     {
       nixosConfigurations = {
-        "z83-server" = nixpkgs.lib.nixosSystem {
+        "z83" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
             inherit inputs;
@@ -28,7 +28,7 @@
             "./configs/z83/hardware-configuration.nix"
           ];
         };
-        "HP1-worker" = nixpkgs.lib.nixosSystem {
+        "hp1" = nixpkgs.lib.nixosSystem {
 
           system = "x86_64-linux";
           specialArgs = {
@@ -40,7 +40,7 @@
             "./configs/hp1/hardware-configuration.nix"
           ];
         };
-        "HP2-worker" = nixpkgs.lib.nixosSystem {
+        "hp2" = nixpkgs.lib.nixosSystem {
 
           system = "x86_64-linux";
           specialArgs = {
