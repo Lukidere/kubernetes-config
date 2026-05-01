@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { config
 , lib
 , pkgs
@@ -10,63 +6,38 @@
 
 {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
+
+  # secrets
   age.secrets."k3s-token".file = ../secrets/k3s-token.age;
   age.secrets."password".file = ./haslo-root.age;
-  # Use the systemd-boot EFI boot loader.
+
+  # system configs
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "z83"; # Define your hostname.
-
-  # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root = {
-
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEX1Ja0Tkcp/bW75Y12iwZKMAo/6VFwkvUJQ24qN4kF koniecznyrad@gmail.com"
-
     ];
   };
-  #user
+
+  # user
   users.users.user = {
     isNormalUser = true;
-    hashedPassword = config.age.secrets."password".path;
+    hashedPasswordFile = config.age.secrets."password".path;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEX1Ja0Tkcp/bW75Y12iwZKMAo/6VFwkvUJQ24qN4kF koniecznyrad@gmail.com"
-
     ];
-    extraGroups = [
-      "
-      wheel
-      "
-    ];
+    extraGroups = [ "wheel" ];
   };
+
   services.openssh = {
     enable = true;
   };
@@ -76,17 +47,15 @@
     wget
   ];
 
-  # Open ports in the firewall.
   networking.firewall.enable = false;
-  #networking.firewall.allowedUDPPorts = [ ... ];
+
   services.k3s = {
     enable = true;
     role = "server";
-    token = config.age.secrets."k3s-token".path;
+    tokenFile = config.age.secrets."k3s-token".path;
     clusterInit = true;
-    extraFlags = "--write-kubeconfig-mode 644 --bind-address 0.0.0.0 192.168.88.5";
+    extraFlags = "--write-kubeconfig-mode 644 --bind-address 0.0.0.0 --node-ip 192.168.88.5";
   };
 
-  system.stateVersion = "25.11"; # Did you read the comment?
-
+  system.stateVersion = "25.11";
 }
