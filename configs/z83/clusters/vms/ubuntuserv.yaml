@@ -29,9 +29,14 @@ spec:
         devices:
           disks:
             - name: instalator
-              cdrom: { bootOrder: 1 }
+              bootOrder: 1
+              cdrom:
+                bus: sata
             - name: dysk-glowny
-              disk: { bootOrder: 2 }
+              bootOrder: 2
+              disk:
+                bus: virtio
+
       volumes:
         - name: instalator
           dataVolume:
