@@ -62,8 +62,6 @@
       ";
   };
 
-  system.stateVersion = "
-      25.11
-      ";
+  system.stateVersion = "25.11";
 
 }
