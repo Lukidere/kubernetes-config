@@ -28,7 +28,7 @@
   #user
   users.users.user = {
     isNormalUser = true;
-    hashedPassword = config.secrets.age."password".path;
+    hashedPassword = config.age.secrets."password".path;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMEX1Ja0Tkcp/bW75Y12iwZKMAo/6VFwkvUJQ24qN4kF koniecznyrad@gmail.com"
 
