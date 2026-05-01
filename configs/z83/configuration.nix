@@ -45,6 +45,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     wget
+    fluxcd
   ];
 
   networking.firewall.enable = false;
