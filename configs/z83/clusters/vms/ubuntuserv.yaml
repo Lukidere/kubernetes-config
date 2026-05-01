@@ -1,0 +1,39 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: iso-ubuntu-direct
+spec:
+  source:
+    http:
+      url: "https://releases.ubuntu.com/22.04/ubuntu-22.04.3-live-server-amd64.iso"
+  storage:
+    resources:
+      requests:
+        storage: 5Gi
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-pobierajaca-iso
+spec:
+  running: true
+  template:
+    spec:
+      domain:
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: 1
+        devices:
+          disks:
+            - name: instalator
+              cdrom: { bootOrder: 1 }
+            - name: dysk-glowny
+              disk: { bootOrder: 2 }
+      volumes:
+        - name: instalator
+          dataVolume:
+            name: iso-ubuntu-direct
+        - name: dysk-glowny
+          containerDisk:
+            image: kubevirt/cloud-init-container-disk
