@@ -26,6 +26,6 @@ in
     legion
     hp1
   ];
-  "secrets/k3s-token.age".publicKeys = [ legion ] ++ cluster;
+  "configs/secrets/k3s-token.age".publicKeys = [ legion ] ++ cluster;
 
 }
