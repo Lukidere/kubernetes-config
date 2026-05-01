@@ -2,6 +2,7 @@ apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
   name: iso-ubuntu-direct
+  namespace: default
 spec:
   source:
     http:
@@ -15,6 +16,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: vm-pobierajaca-iso
+  namespace: default
 spec:
   running: true
   template:
