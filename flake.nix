@@ -24,8 +24,8 @@
           };
           modules = [
             agenix.nixosModules.default
-            "./configs/z83/configuration.nix"
-            "./configs/z83/hardware-configuration.nix"
+            ./configs/z83/configuration.nix
+            ./configs/z83/hardware-configuration.nix
           ];
         };
         "hp1" = nixpkgs.lib.nixosSystem {
@@ -36,8 +36,8 @@
           };
           modules = [
             agenix.nixosModules.default
-            "./configs/hp1/configuration.nix"
-            "./configs/hp1/hardware-configuration.nix"
+            ./configs/hp1/configuration.nix
+            ./configs/hp1/hardware-configuration.nix
           ];
         };
         "hp2" = nixpkgs.lib.nixosSystem {
@@ -48,8 +48,8 @@
           };
           modules = [
             agenix.nixosModules.default
-            "./configs/hp2/configuration.nix"
-            "./configs/hp2/hardware-configuration.nix"
+            ./configs/hp2/configuration.nix
+            ./configs/hp2/hardware-configuration.nix
           ];
         };
       };
