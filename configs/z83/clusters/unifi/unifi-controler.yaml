@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc
+  namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
@@ -14,6 +15,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo
+  namespace: default
 spec:
   selector:
     app: mongo
@@ -25,6 +27,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -61,6 +64,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: unifi-pvc
+  namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
@@ -72,6 +76,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: unifi-controller
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -127,6 +132,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: unifi-service
+  namespace: default
 spec:
   type: LoadBalancer
   selector:
