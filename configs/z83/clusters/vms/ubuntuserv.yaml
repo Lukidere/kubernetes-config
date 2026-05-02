@@ -6,7 +6,7 @@ metadata:
 spec:
   source:
     http:
-      url: "https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso"
+      url: "http://ftp.icm.edu.pl/pub/Linux/ubuntu-releases/22.04/ubuntu-22.04.5-live-server-amd64.iso"
 
   storage:
     accessModes:
