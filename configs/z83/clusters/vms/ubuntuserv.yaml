@@ -1,20 +1,20 @@
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: iso-ubuntu-direct
-  namespace: default
-spec:
-  source:
-    http:
-      url: "http://ftp.icm.edu.pl/pub/Linux/ubuntu-releases/22.04/ubuntu-22.04.5-live-server-amd64.iso"
-
-  storage:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 5Gi
----
+# apiVersion: cdi.kubevirt.io/v1beta1
+# kind: DataVolume
+# metadata:
+#   name: iso-ubuntu-direct
+#   namespace: default
+# spec:
+#   source:
+#     http:
+#       url: "http://ftp.icm.edu.pl/pub/Linux/ubuntu-releases/22.04/ubuntu-22.04.5-live-server-amd64.iso"
+#
+#   storage:
+#     accessModes:
+#       - ReadWriteOnce
+#     resources:
+#       requests:
+#         storage: 5Gi
+# ---
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
@@ -60,9 +60,6 @@ spec:
                 bus: virtio
 
       volumes:
-        - name: instalator
-          dataVolume:
-            name: iso-ubuntu-direct
         - name: dysk-glowny
           dataVolume:
             name: ubuntu-system
@@ -77,10 +74,6 @@ spec:
   selector:
     kubevirt.io/vm: ubuntu-vm
   ports:
-    - name: vnc
-      port: 5900
-      targetPort: 5900
-      nodePort: 31900
     - name: ssh
       port: 22
       targetPort: 22
