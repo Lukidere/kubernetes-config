@@ -24,11 +24,11 @@ spec:
   source:
     blank: {}
   storage:
-    accessModes:
-      -ReadWriteOnce
+    accessModes: -ReadWriteOnce
     resources:
       requests:
         storage: 20Gi
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
