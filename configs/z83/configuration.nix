@@ -41,13 +41,19 @@
   services.openssh = {
     enable = true;
   };
+  environment.variables = { };
 
   environment.systemPackages = with pkgs; [
     neovim
     wget
     fluxcd
   ];
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
 
+  };
   networking.firewall.enable = false;
 
   services.k3s = {
