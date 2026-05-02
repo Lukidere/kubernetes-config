@@ -1,0 +1,144 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:7.0
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-db-credentials
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-db-credentials
+                  key: password
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: unifi-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unifi
+  template:
+    metadata:
+      labels:
+        app: unifi
+    spec:
+      containers:
+        - name: unifi
+          image: lscr.io/linuxserver/unifi-network-application:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Warsaw"
+            - name: MONGO_HOST
+              value: "mongo"
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_DBNAME
+              value: "unifi"
+            - name: MONGO_AUTHSOURCE
+              value: "admin"
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-db-credentials
+                  key: username
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: unifi-db-credentials
+                  key: password
+          ports:
+            - containerPort: 8443
+            - containerPort: 8080
+            - containerPort: 3478
+              protocol: UDP
+          volumeMounts:
+            - name: unifi-data
+              mountPath: /config
+      volumes:
+        - name: unifi-data
+          persistentVolumeClaim:
+            claimName: unifi-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: unifi
+  ports:
+    - name: gui
+      port: 8443
+      targetPort: 8443
+    - name: inform
+      port: 8080
+      targetPort: 8080
+    - name: stun
+      port: 3478
+      targetPort: 3478
+      protocol: UDP

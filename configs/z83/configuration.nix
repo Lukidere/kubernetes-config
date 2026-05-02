@@ -12,7 +12,10 @@
   # secrets
   age.secrets."k3s-token".file = ../secrets/k3s-token.age;
   age.secrets."password".file = ./haslo-root.age;
-
+  nix.settings.experimental-features = [
+    "flakes"
+    "nix-command"
+  ];
   # system configs
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
