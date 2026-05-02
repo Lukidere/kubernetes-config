@@ -50,12 +50,8 @@ spec:
         devices:
           autoattachGraphicsDevice: true
           disks:
-            - name: instalator
-              bootOrder: 1
-              cdrom:
-                bus: sata
             - name: dysk-glowny
-              bootOrder: 2
+              bootOrder: 1
               disk:
                 bus: virtio
 
