@@ -38,6 +38,9 @@ metadata:
 spec:
   running: true
   template:
+    metadata:
+      labels:
+        kubevirt.io/vm: ubuntu-vm
     spec:
       domain:
         resources:
@@ -62,3 +65,22 @@ spec:
         - name: dysk-glowny
           dataVolume:
             name: ubuntu-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-vm-access
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    kubevirt.io/vm: ubuntu-vm
+  ports:
+    - name: vnc
+      port: 5900
+      targetPort: 5900
+      nodePort: 31900
+    - name: ssh
+      port: 22
+      targetPort: 22
+      nodePort: 30022
