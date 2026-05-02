@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: samba
-          image: dperson/samba:latest
+          image: ghcr.io/servercontainers/samba:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: smb
@@ -42,25 +42,25 @@ spec:
               containerPort: 139
               protocol: TCP
           env:
-            - name: USER
-              valueFrom:
-                secretKeyRef:
-                  name: samba-credentials
-                  key: username
-            - name: PASS
+            - name: ACCOUNT_smbuser
               valueFrom:
                 secretKeyRef:
                   name: samba-credentials
                   key: password
-            - name: SHARE
-              value: "share;/mount;yes;no;no;${USER};;;;K3s Samba Share"
+            - name: SAMBA_VOLUME_CONFIG_share
+              value: |
+                [share]
+                  path = /shares
+                  browseable = yes
+                  read only = no
+                  guest ok = no
+                  valid users = smbuser
+                  force user = smbuser
+                  create mask = 0664
+                  directory mask = 0775
           volumeMounts:
             - name: data
-              mountPath: /mount
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            allowPrivilegeEscalation: true
+              mountPath: /shares
       volumes:
         - name: data
           persistentVolumeClaim:
