@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 {
@@ -58,7 +59,12 @@
 
   };
   networking.firewall.enable = false;
-
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8 * 1024;
+    }
+  ];
   services.k3s = {
     enable = true;
     role = "server";
