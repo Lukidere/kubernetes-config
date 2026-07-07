@@ -47,6 +47,7 @@
     neovim
     wget
     rustc
+    cargo
   ];
 
   networking.firewall.enable = false;
