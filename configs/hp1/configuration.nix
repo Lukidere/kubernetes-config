@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 {
@@ -45,6 +46,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     wget
+    rust
   ];
 
   networking.firewall.enable = false;
