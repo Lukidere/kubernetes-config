@@ -46,7 +46,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     wget
-    rust
+    rustc
   ];
 
   networking.firewall.enable = false;
