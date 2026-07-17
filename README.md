@@ -59,7 +59,7 @@ Poniższa sekcja dokumentuje proces odtwarzania klastra (Disaster Recovery) oraz
 Zaczynamy od pobrania repozytorium na stację roboczą (laptop), z której prowadzony jest provisioning bazowy:
 
 ```bash
-git clone https://github.com/Lukidere/kubernetes-config.git
+git clone https://github.com/dhmztr/kubernetes-config.git
 cd kubernetes-config
 ```
 
